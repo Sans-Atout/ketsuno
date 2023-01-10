@@ -1,0 +1,19 @@
+[package]
+name = "ketsuno"
+version = "0.1.0"
+edition = "2021"
+authors = ["Sans-Atout <augustin.rousset-rouviere@isep.fr>"] 
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+actix-rt = "2.7.0"
+actix-web = "4.2.1"
+futures = "0.3.25"
+serde = { version = "1.0.152" ,  features = ["derive"]}
+serde_json = "1.0.91"
+diesel = { version = "2.0.2", features = ["postgres"] }
+dotenvy = "0.15.6"
+utoipa = "2.4.2"
+utoipa-swagger-ui = { version = "3.0.1", features = ["actix-web"] }
+check-if-email-exists = "0.9.0"
