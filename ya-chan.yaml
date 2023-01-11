@@ -1,0 +1,217 @@
+openapi: 3.0.3
+info:
+  title: Ya-chan Public API - OpenAPI 3.0
+  description: |-
+    This is a sample Pet Store Server based on the OpenAPI 3.0 specification.  You can find out more about
+  version: 1.0.0
+servers:
+  - url: https://api.ya-chan.fr/v1/
+tags:
+  - name: User
+    description: All User manipulation Url
+
+  - name: Anime
+    description: Access to Petstore orders
+
+paths:
+  /register:
+    post:
+      tags:
+        - User
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: yasuko@ya-chan.fr
+                username:
+                  type: string
+                  example: Yasuko-chan
+                password:
+                  type: string
+                  format: password
+                  example: MyUltraSecretPassword
+                repeat_password:
+                  type: string
+                  format: password
+                  example: MyUltraSecretPassword
+                accept_policy:
+                  type: boolean
+                  example: true
+              required:
+                - email
+                - password
+                - repeat_password
+                - accept_policy
+      responses:
+        '201':
+          description: User well created
+        '400':
+          description: Something go wrong
+  /login:
+    post:
+      tags:
+        - User
+      summary: Log in as user
+      description: Log an user in a system and return an JWT token
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: yasuko@ya-chan.fr
+                password:
+                  type: string
+                  format: password
+                  example: MyUltraSecretPassword
+      responses:
+        '400':
+          description: Invalid username supplied
+        '404':
+          description: User not found
+  /logout:
+    get:
+      tags:
+        - User
+      security:
+        - BearerAuth : []
+      responses:
+        '200':
+          description: User well deconnected
+        '401':
+          description: User not connected
+  /validate/{token}:
+    get:
+      tags:
+        - User
+      summary: Validate user email
+      parameters:
+        - in: path
+          name: token
+          required: true
+          schema:
+            type: string
+
+      responses:
+        '200':
+          description: User email validated
+        '401':
+          description: Token not found
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        email:
+          type: string
+          example: yasuko@ya-chan.fr
+        username:
+          type: string
+          example: yasuko
+        avatar:
+          type: string
+          format: url
+          example: https://cdn.ya-chan.fr/avatar/BEBE1235.jpg
+        password:
+          type: string
+          example: 'mysupersecretpassword'
+        validated:
+          type: boolean
+          example: true
+        created_at:
+          type: string
+          format: date-time
+          example: "2021-01-30 20:22:30:123"
+        validate_at:
+          type: string
+          format: date-time
+          example: "2021-01-30 20:30:30:123"
+        birtday:
+          type: string
+          format: date
+          example: "2021-01-30"
+
+      xml:
+        name: user
+    Anime:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+          example: 42
+        name:
+          type: string
+          example: akame ga kill
+        nb_saisons:
+          type: integer
+          format: int8
+          example: 25
+        nb_episodes:
+          type: integer
+          format: int16
+        summary:
+          type: string
+          format: text
+          example: My beautifull and fantastic akame ga kill summary
+        image:
+          type: string
+          format: url
+          example: https://cdn.ya-chan.fr/anime/akame.png
+        trailer:
+          type: string
+          format: url
+          example: https://www.youtube.com/watch?v=dQw4w9WgXcQ
+        slug:
+          type: string
+          example: akame-ga-kill
+    AnimeAlternativeName:
+      type: object
+      properties:
+        anime_id:
+          type: integer
+          format: int32
+          example: 123
+        name:
+          type: string
+          example: Akame Ga killu!
+    Saison:
+      type: object
+    Episode:
+      type: object
+    Tag:
+      type: object
+    Ost:
+      type: object
+    ApiResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        type:
+          type: string
+        message:
+          type: string
+      xml:
+        name: '##default'
+
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
