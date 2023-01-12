@@ -1,6 +1,6 @@
 openapi: 3.0.3
 info:
-  title: Ya-chan Public API - OpenAPI 3.0
+  title: Ya-chan Public - OpenAPI 3.0
   description: |-
     This is a sample Pet Store Server based on the OpenAPI 3.0 specification.  You can find out more about
   version: 1.0.0
@@ -16,6 +16,7 @@ tags:
 paths:
   /register:
     post:
+      description: register user
       tags:
         - User
       requestBody:
@@ -41,10 +42,16 @@ paths:
                 accept_policy:
                   type: boolean
                   example: true
+                birtday:
+                  type: string
+                  format: date
+                  example: "2021-01-30"
               required:
                 - email
+                - username
                 - password
                 - repeat_password
+                - birthday
                 - accept_policy
       responses:
         '201':
@@ -70,6 +77,12 @@ paths:
                   type: string
                   format: password
                   example: MyUltraSecretPassword
+                remenber_me:
+                  type: boolean
+                  example: true
+              required:
+                - email
+                - password
       responses:
         '400':
           description: Invalid username supplied
@@ -77,6 +90,7 @@ paths:
           description: User not found
   /logout:
     get:
+      description: Logout user
       tags:
         - User
       security:
