@@ -252,7 +252,138 @@ paths:
         '401' :
           description: Unauthorized access
 
+  /admin/anime:
+    post:
+      tags: 
+        - Anime
+      description: Create an anime entity
+      security:
+        - BearerAuth : []
+        - ApiKeyAuth : []
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Akame ga Kill
+              required:
+                - name
       responses:
+        '201' : 
+          description: Anime created
+        '401' :
+          description: Access Denied
+  /admin/anime/{slug}:
+    put:
+      tags: 
+        - Anime
+      description: Update anime entity
+      parameters:
+        - in: path
+          name: token
+          required: true
+          schema:
+            type: string
+      security:
+        - BearerAuth : []
+        - ApiKeyAuth : []
+      responses:
+        '200':
+          description: Anime well update
+        '401' : 
+          description: Access Denied
+        '422' :
+          description: Anime not found
+    get:
+      tags: 
+        - Anime
+      description: Delete anime entity
+      parameters:
+        - in: path
+          name: token
+          required: true
+          schema:
+            type: string
+      security:
+        - BearerAuth : []
+        - ApiKeyAuth : []
+      responses:
+        '200':
+          description: Anime well deleted
+        '401' : 
+          description: Access Denied
+        '422' :
+          description: Anime not found
+  /anime/:
+    get:
+      tags:
+        - Anime
+      description: get all anime
+      responses:
+        '200' : 
+          description: Anime found
+        '401' : 
+          description: User is bot or is scrapping
+  /anime/{slug}:
+    get:
+      tags: 
+        - Anime
+      description: Create an anime entity
+      parameters:
+        - in: path
+          name: slug
+          required: true
+          schema:
+            type: string
+      responses:
+        '200' : 
+          description: Anime found
+        '401' : 
+          description: User is bot or is scrapping
+        '404' : 
+          description: Anime not found
+  /admin/anime/{slug}/name:
+    post:
+      tags:
+        - Anime
+      description: Add a new alternative name
+      security:
+        - BearerAuth : []
+        - ApiKeyAuth : []
+      responses:
+        '201' : 
+          description: Anime created
+        '401' :
+          description: Access Denied
+    put:
+      tags:
+        - Anime
+      description: Add a new alternative name
+      security:
+        - BearerAuth : []
+        - ApiKeyAuth : []
+      responses:
+        '201' : 
+          description: Anime created
+        '401' :
+          description: Access Denied
+  /admin/anime/{slug}/name/delete:
+    post:
+      tags:
+        - Anime
+      description: Add a new alternative name
+      security:
+        - BearerAuth : []
+        - ApiKeyAuth : []
+      responses:
+        '201' : 
+          description: Anime created
+        '401' :
+          description: Access Denied
+
 
 components:
   schemas:
