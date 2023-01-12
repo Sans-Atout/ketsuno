@@ -103,6 +103,156 @@ paths:
           description: User email validated
         '401':
           description: Token not found
+  /reset/password:
+    post:
+      tags:
+        - User
+      summary: reset an User Password
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: yasuko@ya-chan.fr
+              required:
+                - email
+      responses:
+        '200':
+          description: Account not found
+        '400':
+          description: Email not found
+  /reset/password/{token}: 
+    post:
+      tags:
+        - User
+      summary: reset an User Password
+      description: Reset an user password
+      parameters:
+        - in: path
+          name: token
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: yasuko@ya-chan.fr
+                new_password:
+                  type: string
+                  format: password
+                  example: MyNewSecretPassword
+                repeat_password:
+                  type: string
+                  format: password
+                  example: MyNewSecretPassword
+              required:
+                - email
+                - new_password
+                - repeat_password
+      responses:
+        '200':
+          description: Account not found
+        '400':
+          description: Email not found
+  /token/new:
+    post:
+      tags:
+        - User
+      description: Create an API Token
+      security:
+        - BearerAuth : []
+        - ApiKeyAuth : []
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                api_name:
+                  type: string
+                  example: My Incredible API Token
+              required:
+                - api_name
+      responses:
+        '200' :
+          description: Recover the anime Token
+        '401' :
+          description: Unauthorized access
+  /token/:
+    post:
+      tags:
+        - User
+      summary: Create an API Token
+      security:
+        - BearerAuth : []
+        - ApiKeyAuth : []
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                api_name:
+                  type: string
+                  example: My Incredible API Token
+              required:
+                - api_name
+      responses:
+        '200' :
+          description: We found an anime token
+        '401' :
+          description: Unauthorized access
+        '422' :
+          description: Can not find API Token for this user
+  /token/revoke:
+    post:
+      tags:
+        - User
+      description: Create an API Token
+      security:
+        - BearerAuth : []
+        - ApiKeyAuth : []
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                api_name:
+                  type: string
+                  example: My Incredible API Token
+              required:
+                - api_name
+      responses:
+        '200' :
+          description: We found an anime token
+        '401' :
+          description: Unauthorized access
+        '422' :
+          description: Can not find API Token for this user
+    get:
+      tags:
+        - User
+      description : Revoke API Token
+      security:
+        - ApiKeyAuth : []
+      responses:
+        '200' :
+          description: We found an anime token
+        '401' :
+          description: Unauthorized access
+
+      responses:
 
 components:
   schemas:
