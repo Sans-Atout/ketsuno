@@ -3,6 +3,7 @@ name = "ketsuno"
 version = "0.1.0"
 edition = "2021"
 authors = ["Sans-Atout <augustin.rousset-rouviere@isep.fr>"] 
+publish = false
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -16,4 +17,11 @@ diesel = { version = "2.0.2", features = ["postgres", "chrono", "serde_json", "r
 dotenvy = "0.15.6"
 utoipa = "2.4.2"
 utoipa-swagger-ui = { version = "3.0.1", features = ["actix-web"] }
-check-if-email-exists = "0.9.0"
+actix-swagger = "0.3.1"
+regex = "1.7.1"
+email_address = "0.2.4"
+chrono = "0.4.23"
+rust-argon2 = "1.0.0"
+diesel_as_jsonb = "1.0.0"
+actix-web-grants = "3.0.1"
+r2d2 = "0.8.10"
