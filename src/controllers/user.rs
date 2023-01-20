@@ -24,5 +24,20 @@ pub async fn register(
         return HttpResponse::build(StatusCode::BAD_REQUEST)
             .body(serde_json::to_string(&errors).unwrap());
     }
-    return HttpResponse::build(StatusCode::OK).body("All rigth all migth");
+    let user = web::block(move || {
+        let mut conn = pool.get().unwrap();
+        let user = NewUser {
+            pseudo: &creation_form.pseudo.clone(),
+            email: &creation_form.email.clone(),
+            avatar: &"default.png".to_string(),
+            password: &utils::get_hashed_password(creation_form.password.clone().to_string()),
+            is_activated: &false,
+            created_at: &Utc::now().naive_utc(),
+            updated_at: &Utc::now().naive_utc(),
+        };
+    
+        return create_user(&mut conn, &user);
+    })
+    .await.unwrap();
+    return HttpResponse::build(StatusCode::OK).body(serde_json::to_string(&user).unwrap());
 }
